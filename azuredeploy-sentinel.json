@@ -1,0 +1,54 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "metadata": {},
+    "parameters": {
+      "sentinelName": {
+        "type": "string",
+        "defaultValue": "<customer>sentinel"
+      },
+      "retentionInDays": {
+        "type": "int",
+        "defaultValue": 90,
+        "maxValue": 730,
+        "minValue": 30
+      }
+    },
+    "variables": {
+      "location": "[resourceGroup().location]",
+      "workspaceName": "[format('{0}-{1}-{2}', variables('location'), parameters('sentinelName'), uniqueString(resourceGroup().id))]",
+      "solutionName": "[format('SecurityInsights({0})', variables('workspaceName'))]"
+    },
+    "resources": [
+      {
+        "type": "Microsoft.OperationalInsights/workspaces",
+        "apiVersion": "2020-08-01",
+        "name": "[variables('workspaceName')]",
+        "location": "[variables('location')]",
+        "properties": {
+          "sku": {
+            "name": "PerGB2018"
+          },
+          "retentionInDays": "[parameters('retentionInDays')]"
+        }
+      },
+      {
+        "type": "Microsoft.OperationsManagement/solutions",
+        "apiVersion": "2015-11-01-preview",
+        "name": "[variables('solutionName')]",
+        "location": "[variables('location')]",
+        "properties": {
+          "workspaceResourceId": "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
+        },
+        "plan": {
+          "name": "[variables('solutionName')]",
+          "publisher": "Microsoft",
+          "product": "OMSGallery/SecurityInsights",
+          "promotionCode": ""
+        },
+        "dependsOn": [
+          "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
+        ]
+      }
+    ]
+  }
