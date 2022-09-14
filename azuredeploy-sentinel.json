@@ -57,54 +57,6 @@
       "dependsOn": [
         "[resourceId('Microsoft.OperationalInsights/workspaces', variables('workspaceName'))]"
       ]
-    },
-    {
-      "type": "Microsoft.ManagedServices/registrationDefinitions",
-      "apiVersion": "2020-02-01-preview",
-      "name": "[guid('Managed Detection and Response')]",
-      "plan": {
-        "name": "mdr",
-        "product": "xdr",
-        "publisher": "amestofortytwoas1653635920536",
-        "version": "1.0.0"
-      },
-      "properties": {
-        "registrationDefinitionName": "Managed Detection and Response",
-        "description": "",
-        "managedByTenantId": "ebad9241-2387-4155-8952-c8d8718bf80c",
-        "authorizations": [
-          {
-            "principalId": "792a3ae4-85dd-4b80-a793-ce8caf259e44",
-            "principalIdDisplayName": "Contributors",
-            "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-            "delegatedRoleDefinitionIds": []
-          },
-          {
-            "principalId": "3f5edfd8-333e-4efa-b763-3b9421ff52e1",
-            "principalIdDisplayName": "Incident Response Team",
-            "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-            "delegatedRoleDefinitionIds": []
-          },
-          {
-            "principalId": "e80ca1aa-dfdc-4a39-be4e-cb33a713ca48",
-            "principalIdDisplayName": "Operators",
-            "roleDefinitionId": "b24988ac-6180-42a0-ab88-20f7382dd24c",
-            "delegatedRoleDefinitionIds": []
-          }
-        ],
-        "eligibleAuthorizations": []
-      }
-    },
-    {
-      "type": "Microsoft.ManagedServices/registrationAssignments",
-      "apiVersion": "2019-09-01",
-      "name": "[guid('Managed Detection and Response')]",
-      "dependsOn": [
-        "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', guid('Managed Detection and Response'))]"
-      ],
-      "properties": {
-        "registrationDefinitionId": "[resourceId('Microsoft.ManagedServices/registrationDefinitions/', guid('Managed Detection and Response'))]"
-      }
     }
   ]
 }
